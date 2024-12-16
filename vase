@@ -1,0 +1,59 @@
+// Import Web3.js
+const Web3 = require('web3');
+
+// Define Ethereum and Binance Smart Chain (BSC) RPC URLs
+const ethRpcUrl = 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID'; // Ethereum RPC
+const bscRpcUrl = 'https://bsc-dataseed.binance.org/'; // BSC RPC
+
+// Initialize Web3 instances for both blockchains
+const web3Eth = new Web3(new Web3.providers.HttpProvider(ethRpcUrl));
+const web3Bsc = new Web3(new Web3.providers.HttpProvider(bscRpcUrl));
+
+// Define the transaction hashes for both blockchains (example transaction hashes)
+const ethTransactionHash = '0x...'; // Ethereum tx hash
+const bscTransactionHash = '0x...'; // BSC tx hash
+
+// Function to get Ethereum transaction status
+async function getEthTransactionStatus(txHash) {
+  try {
+    const receipt = await web3Eth.eth.getTransactionReceipt(txHash);
+    if (receipt) {
+      if (receipt.status) {
+        console.log(`Ethereum Transaction ${txHash} was successful.`);
+      } else {
+        console.log(`Ethereum Transaction ${txHash} failed.`);
+      }
+    } else {
+      console.log(`Transaction ${txHash} is pending or not found on Ethereum.`);
+    }
+  } catch (error) {
+    console.error('Error fetching Ethereum transaction status:', error);
+  }
+}
+
+// Function to get Binance Smart Chain (BSC) transaction status
+async function getBscTransactionStatus(txHash) {
+  try {
+    const receipt = await web3Bsc.eth.getTransactionReceipt(txHash);
+    if (receipt) {
+      if (receipt.status) {
+        console.log(`BSC Transaction ${txHash} was successful.`);
+      } else {
+        console.log(`BSC Transaction ${txHash} failed.`);
+      }
+    } else {
+      console.log(`Transaction ${txHash} is pending or not found on BSC.`);
+    }
+  } catch (error) {
+    console.error('Error fetching BSC transaction status:', error);
+  }
+}
+
+// Example usage: Get transaction statuses
+(async () => {
+  // Fetch status from Ethereum
+  await getEthTransactionStatus(ethTransactionHash);
+
+  // Fetch status from BSC
+  await getBscTransactionStatus(bscTransactionHash);
+})();
